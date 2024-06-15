@@ -11,9 +11,9 @@ resources:
 variables:
 
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '2de302a7-b7d5-4bf6-974e-900280a3b2fc'
-  imageRepository_view: 'view-microservice'
-  imageRepository_add: 'add-microservice'
+  dockerRegistryServiceConnection: '2de302a7-b7d5-4bf6-974e-9e0280a3b2fc'
+  imageRepository_view: 'view_microservice'
+  imageRepository_add: 'add_microservice'
   containerRegistry: 'xxdockerimage.azurecr.io'
   dockerfilePath_view: '**/Dockerfile_view_data'
   dockerfilePath_add: '**/Dockerfile_add_data'
@@ -49,7 +49,7 @@ stages:
       inputs:
         command: buildAndPush
         repository: $(imageRepository_add)
-        dockerfile: $(dockerfilePath_add)
+        dockerfile: $(dockerfilePath)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
