@@ -12,9 +12,11 @@ variables:
 
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '2de302a7-b7d5-4bf6-974e-9e0280a3b2fc'
-  imageRepository: 'pyappmicroservice'
+  imageRepository_view: 'view_microservice'
+  imageRepository_add: 'add_microservice'
   containerRegistry: 'xxdockerimage.azurecr.io'
-  dockerfilePath: '**/Dockerfile'
+  dockerfilePath_view: '**/Dockerfile_view'
+  dockerfilePath_add: '**/Dockerfile_add'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'xxdockerimage1944a094-auth'
 
@@ -29,13 +31,24 @@ stages:
   - job: Build
     displayName: Build
     pool:
+      name: dev
       vmImage: $(vmImageName)
     steps:
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
         command: buildAndPush
-        repository: $(imageRepository)
+        repository: $(imageRepository_view)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository_add)
         dockerfile: $(dockerfilePath)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
@@ -52,6 +65,7 @@ stages:
   - deployment: Deploy
     displayName: Deploy
     pool:
+      name: dev
       vmImage: $(vmImageName)
     environment: 'rahulwaynepyappmicroservice.pyapp-microservice'
     strategy:
@@ -75,5 +89,6 @@ stages:
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
-                $(containerRegistry)/$(imageRepository):$(tag)
+                $(containerRegistry)/$(imageRepository_view):$(tag)
+                $(containerRegistry)/$(imageRepository_add):$(tag)
 
