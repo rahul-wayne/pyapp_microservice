@@ -103,4 +103,5 @@ stages:
               containers: |
                 $(containerRegistry)/$(imageRepository_view):$(tag)
                 $(containerRegistry)/$(imageRepository_add):$(tag)
+                $(containerRegistry)/$(imageRepository_nginx):$(tag)
 
