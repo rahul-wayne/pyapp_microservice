@@ -19,7 +19,7 @@ metadata:
   name: view-service
 spec:
   selector:
-    app: view_microservice
+    app: view-microservice
   ports:
     - protocol: TCP
       port: 80
@@ -33,7 +33,7 @@ metadata:
   name: add-service
 spec:
   selector:
-    app: add_microservice
+    app: add-microservice
   ports:
     - protocol: TCP
       port: 80

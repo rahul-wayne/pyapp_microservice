@@ -40,20 +40,20 @@ kind: Deployment
 metadata:
   name: view-deployment
   labels:
-    app: view_microservice
+    app: view-microservice
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: view_microservice
+      app: view-microservice
   template:
     metadata:
       labels:
-        app: view_microservice
+        app: view-microservice
     spec:
       containers:
-      - name: view_microservice
-        image: xxdockerimage.azurecr.io/rahulwayneview_microservice
+      - name: view-microservice
+        image: xxdockerimage.azurecr.io/rahulwayneview-microservice
         ports:
         - containerPort: 5002
 
@@ -63,19 +63,19 @@ kind: Deployment
 metadata:
   name: add-deployment
   labels:
-    app: add_microservice
+    app: add-microservice
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: add_microservice
+      app: add-microservice
   template:
     metadata:
       labels:
-        app: add_microservice
+        app: add-microservice
     spec:
       containers:
-      - name: add_microservice
-        image: xxdockerimage.azurecr.io/rahulwayneadd_microservice
+      - name: add-microservice
+        image: xxdockerimage.azurecr.io/rahulwayneadd-microservice
         ports:
         - containerPort: 5001
