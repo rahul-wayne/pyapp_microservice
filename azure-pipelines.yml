@@ -20,7 +20,7 @@ variables:
   dockerfilePath_add: '**/Dockerfile_add_data'
   dockerfilePath_nginx: '**/Dockerfile_nginx'
   tag: '$(Build.BuildId)'
-  imagePullSecret: 'xxdockerimage1944a094-auth'
+  imagePullSecret: 'xxdockerimage1909fbcf-auth'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
