@@ -1,0 +1,41 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-service
+spec:
+  selector:
+    app: mongodb
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: view-service
+spec:
+  selector:
+    app: view_microservice
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5002
+  type: LoadBalancer
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: add-service
+spec:
+  selector:
+    app: add_microservice
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5001
+  type: LoadBalancer

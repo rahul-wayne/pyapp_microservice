@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb-deployment
+  labels:
+    app: mongodb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+      - name: mongodb
+        image: mongo:latest
+        ports:
+        - containerPort: 27017
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mongo-init-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: mongo-init
+        image: mongo:latest
+        command: ["sh", "-c", "mongosh --host mongodb-service --eval 'use microserviceDB; db.createCollection(\"data\")'"]
+      restartPolicy: OnFailure
+
+---        
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: view-deployment
+  labels:
+    app: view_microservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: view_microservice
+  template:
+    metadata:
+      labels:
+        app: view_microservice
+    spec:
+      containers:
+      - name: view_microservice
+        image: xxdockerimage.azurecr.io/rahulwayneview_microservice
+        ports:
+        - containerPort: 5002
+
+---        
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: add-deployment
+  labels:
+    app: add_microservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: add_microservice
+  template:
+    metadata:
+      labels:
+        app: add_microservice
+    spec:
+      containers:
+      - name: add_microservice
+        image: xxdockerimage.azurecr.io/rahulwayneadd_microservice
+        ports:
+        - containerPort: 5001
