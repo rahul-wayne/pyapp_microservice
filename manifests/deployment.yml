@@ -53,7 +53,7 @@ spec:
     spec:
       containers:
       - name: view-microservice
-        image: xxdockerimage.azurecr.io/rahulwayneview-microservice
+        image: xxdockerimage.azurecr.io/rahulwayneviewmicroservice
         ports:
         - containerPort: 5002
 
@@ -76,6 +76,6 @@ spec:
     spec:
       containers:
       - name: add-microservice
-        image: xxdockerimage.azurecr.io/rahulwayneadd-microservice
+        image: xxdockerimage.azurecr.io/rahulwayneaddmicroservice
         ports:
         - containerPort: 5001
