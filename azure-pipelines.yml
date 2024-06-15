@@ -11,7 +11,7 @@ resources:
 variables:
 
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '2de302a7-b7d5-4bf6-974e-9e0280a3b2fc'
+  dockerRegistryServiceConnection: '510dd4ae-6756-4bbe-bea0-4a501fbfc583'
   imageRepository_view: 'viewmicroservice'
   imageRepository_add: 'addmicroservice'
   imageRepository_nginx: 'nginxmicroservice'
