@@ -79,7 +79,7 @@ stages:
     pool:
       name: dev
       vmImage: $(vmImageName)
-    environment: 'rahulwaynepyappmicroservice.pyapp-microservice'
+    environment: 'rahulwaynepyappmicroservice-1048.pyapp-microservice''
     strategy:
       runOnce:
         deploy:
