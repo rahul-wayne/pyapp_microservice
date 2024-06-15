@@ -39,7 +39,7 @@ stages:
       inputs:
         command: buildAndPush
         repository: $(imageRepository_view)
-        dockerfile: $(dockerfilePath)
+        dockerfile: $(dockerfilePath_view)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
@@ -49,7 +49,7 @@ stages:
       inputs:
         command: buildAndPush
         repository: $(imageRepository_add)
-        dockerfile: $(dockerfilePath)
+        dockerfile: $(dockerfilePath_add)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
