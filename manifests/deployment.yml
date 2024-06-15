@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: pyappmicroservice 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pyappmicroservice
+  template:
+    metadata:
+      labels:
+        app: pyappmicroservice 
+    spec:
+      containers:
+        - name: pyappmicroservice 
+          image: xxdockerimage.azurecr.io/pyappmicroservice
+          ports:
+          - containerPort: 5000
