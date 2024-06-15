@@ -15,8 +15,8 @@ variables:
   imageRepository_view: 'view_microservice'
   imageRepository_add: 'add_microservice'
   containerRegistry: 'xxdockerimage.azurecr.io'
-  dockerfilePath_view: '**/Dockerfile_view'
-  dockerfilePath_add: '**/Dockerfile_add'
+  dockerfilePath_view: '**/Dockerfile_view_data'
+  dockerfilePath_add: '**/Dockerfile_add_data'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'xxdockerimage1944a094-auth'
 
