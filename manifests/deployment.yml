@@ -79,3 +79,24 @@ spec:
         image: xxdockerimage.azurecr.io/addmicroservice
         ports:
         - containerPort: 5001
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 1  # Number of replicas
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: xxdockerimage.azurecr.io/nginxmicroservice  # Using the alpine version of nginx
+        ports:
+        - containerPort: 80  # Nginx listens on port 80

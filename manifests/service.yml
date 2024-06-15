@@ -22,9 +22,10 @@ spec:
     app: view-microservice
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 5002
-  type: LoadBalancer
+      port: 5002
+      #targetPort: 5002
+  #type: LoadBalancer
+  type: ClusterIP
 
 ---
 apiVersion: v1
@@ -36,6 +37,21 @@ spec:
     app: add-microservice
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 5001
+      port: 5001
+      #targetPort: 5001
+  #type: LoadBalancer
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx
+  ports:
+  - port: 80  # The service port
+    targetPort: 80  # The container port
   type: LoadBalancer
+  #nodePort: 30007  # The port exposed on each node
