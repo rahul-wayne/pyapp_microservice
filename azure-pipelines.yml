@@ -12,9 +12,13 @@ variables:
 
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '74c816c8-4a99-49b6-8f3f-a6f26d9fa25a'
-  imageRepository: 'test'
+  imageRepository_view: 'viewmicroservice'
+  imageRepository_add: 'addmicroservice'
+  imageRepository_nginx: 'nginxmicroservice'
   containerRegistry: 'xxdockerimage.azurecr.io'
-  dockerfilePath: '**/Dockerfile'
+  dockerfilePath_view: '**/Dockerfile_view_data'
+  dockerfilePath_add: '**/Dockerfile_add_data'
+  dockerfilePath_nginx: '**/Dockerfile_nginx'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'xxdockerimage392387d0-auth'
 
@@ -29,14 +33,35 @@ stages:
   - job: Build
     displayName: Build
     pool:
+      name: dev
       vmImage: $(vmImageName)
     steps:
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
         command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
+        repository: $(imageRepository_view)
+        dockerfile: $(dockerfilePath_view)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository_add)
+        dockerfile: $(dockerfilePath_add)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository_nginx)
+        dockerfile: $(dockerfilePath_nginx)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
@@ -52,6 +77,7 @@ stages:
   - deployment: Deploy
     displayName: Deploy
     pool:
+      name: dev
       vmImage: $(vmImageName)
     environment: 'rahulwaynepyappmicroservice-1883.pyapp'
     strategy:
@@ -75,5 +101,6 @@ stages:
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
-                $(containerRegistry)/$(imageRepository):$(tag)
-
+                $(containerRegistry)/$(imageRepository_view):$(tag)
+                $(containerRegistry)/$(imageRepository_add):$(tag)
+                $(containerRegistry)/$(imageRepository_nginx):$(tag)

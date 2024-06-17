@@ -11,16 +11,12 @@ resources:
 variables:
 
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '647ec5d2-45f7-4ab5-adeb-81ce9f815c82'
-  imageRepository_view: 'viewmicroservice'
-  imageRepository_add: 'addmicroservice'
-  imageRepository_nginx: 'nginxmicroservice'
+  dockerRegistryServiceConnection: '74c816c8-4a99-49b6-8f3f-a6f26d9fa25a'
+  imageRepository: 'test'
   containerRegistry: 'xxdockerimage.azurecr.io'
-  dockerfilePath_view: '**/Dockerfile_view_data'
-  dockerfilePath_add: '**/Dockerfile_add_data'
-  dockerfilePath_nginx: '**/Dockerfile_nginx'
+  dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
-  imagePullSecret: 'xxdockerimage49866b4e-auth'
+  imagePullSecret: 'xxdockerimage392387d0-auth'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -33,35 +29,14 @@ stages:
   - job: Build
     displayName: Build
     pool:
-      name: dev
       vmImage: $(vmImageName)
     steps:
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
         command: buildAndPush
-        repository: $(imageRepository_view)
-        dockerfile: $(dockerfilePath_view)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
-
-    - task: Docker@2
-      displayName: Build and push an image to container registry
-      inputs:
-        command: buildAndPush
-        repository: $(imageRepository_add)
-        dockerfile: $(dockerfilePath_add)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
-    
-    - task: Docker@2
-      displayName: Build and push an image to container registry
-      inputs:
-        command: buildAndPush
-        repository: $(imageRepository_nginx)
-        dockerfile: $(dockerfilePath_nginx)
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
@@ -77,9 +52,8 @@ stages:
   - deployment: Deploy
     displayName: Deploy
     pool:
-      name: dev
       vmImage: $(vmImageName)
-    environment: 'rahulwaynepyappmicroservice-6564.pyapp-microservice'
+    environment: 'rahulwaynepyappmicroservice-1883.pyapp'
     strategy:
       runOnce:
         deploy:
@@ -101,6 +75,5 @@ stages:
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
-                $(containerRegistry)/$(imageRepository_view):$(tag)
-                $(containerRegistry)/$(imageRepository_add):$(tag)
-                $(containerRegistry)/$(imageRepository_nginx):$(tag)
+                $(containerRegistry)/$(imageRepository):$(tag)
+
