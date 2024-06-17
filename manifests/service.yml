@@ -51,7 +51,45 @@ spec:
   selector:
     app: nginx
   ports:
-  - port: 80  # The service port
+  - protocol: TCP
+    port: 80  # The service port
     targetPort: 80  # The container port
-  type: LoadBalancer
+  type: NodePort
+  #type: LoadBalancer
   #nodePort: 30007  # The port exposed on each node
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: nginx-gateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: nginx
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - nginx-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: nginx-service
+        port:
+          number: 80
